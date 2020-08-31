@@ -2,7 +2,8 @@ if (!getProductId()){
     alert('référence produit inconnu');
 }
 
-ajax('http://localhost:3000/api/teddies/'+ getProductId()).then((product)=>{
+ajax('http://localhost:3000/api/teddies/'+ getProductId(),'GET')
+.then((product)=>{
     displayProduct(product)
     listenForCartAddition();
     })

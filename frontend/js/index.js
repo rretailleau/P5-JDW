@@ -1,5 +1,5 @@
 
-ajax('http://localhost:3000/api/teddies/').then((products)=>{
+ajax('http://localhost:3000/api/teddies/', 'GET').then((products)=>{
     displayProducts(products);
 })
 

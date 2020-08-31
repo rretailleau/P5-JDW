@@ -1,5 +1,15 @@
+if (!has('products')) {
+    document.getElementById('panier-vide').style.display = 'block';
+    document.getElementById('vider-panier').style.display = 'none';
+    document.getElementById('formulaire-commande').style.display = 'none';
+} else {
+    document.getElementById('panier-vide').style.display = 'none';
+    document.getElementById('vider-panier').style.display = 'block';
+    document.getElementById('formulaire-commande').style.display = 'block';
+}
+
 // requete ajax
-ajax('http://localhost:3000/api/teddies/').then((products)=>{
+ajax('http://localhost:3000/api/teddies/', 'GET').then((products)=>{
     let productIdsInCart = get('products');
     let cart = '';
 
@@ -10,6 +20,10 @@ ajax('http://localhost:3000/api/teddies/').then((products)=>{
         cart += renderHTMLProduct(product, 'cart');
     }
     document.getElementById('panier').innerHTML = cart;
+    document.getElementById('vider-panier').addEventListener('click',() => {
+        clear();
+        location.reload();
+    })
 })
 
 function findProduct(id, products) {

@@ -13,3 +13,6 @@ function set(name, value) {
     localStorage.setItem(name , JSON.stringify(value));
 }
 
+function clear() {
+    localStorage.clear();
+}
