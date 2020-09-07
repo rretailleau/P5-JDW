@@ -2,7 +2,7 @@ function renderHTMLProduct(product, type) {
     if (type === 'list') {
         return`
         <div class="product-list">
-            <div>${product.name}    <a href="product.html?product_id=${product._id}">voir+</a></div>
+            <div>${product.name}<a href="product.html?product_id=${product._id}"> voir+</a></div>
             <img src= ${product.imageUrl} width="400px"/>
         </div>`
     }
@@ -25,10 +25,6 @@ function renderHTMLProduct(product, type) {
             <img src= ${product.imageUrl} width="200px"/>
         </div>`
     }
-    if (type === 'amount') {
-        return`
-        <div class="total-order">€</div>`
-    }
 }
 
 function ajax(url, verb, payload = {}){
@@ -40,15 +36,14 @@ function ajax(url, verb, payload = {}){
             if(req.status>=200){
                 let data = JSON.parse(req.responseText);
                 resolve(data);
-            }
-            else{
+            } else {
                 reject();
             }
             
         });
 
-    req.setRequestHeader("content-type", "application/json;charset=UTF-8");
+        req.setRequestHeader("content-type", "application/json;charset=UTF-8");
 
-    req.send(payload);
+        req.send(payload);
     });
 }

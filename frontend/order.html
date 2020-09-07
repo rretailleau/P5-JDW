@@ -4,20 +4,21 @@
 
 <head>
 	<meta charset="utf-8"/>
-	<link rel="stylesheet" href="Style.css" />
+	<link rel="stylesheet" href="style.css" />
     <title> Confirmation commande </title>
     <script src="./js/utils.js" defer></script>
     <script src="./js/storage.js" defer></script>
-    <script src="./js/commande.js" defer></script>
+    <script src="./js/order.js" defer></script>
+    <script src="./js/panier.js" defer></script>
 </head>
 <body>
     <header>
         <a href="index.html"><img src="../images/logo.png"alt="logo"/></a>
     </header>
     <h1>MERCI POUR VOTRE COMMANDE</h1>
-    <section class="catalog">
+    <section class="confirmation-commande">
+        <div id="order-number"></div>
         <div id="order"></div>
-        <div>Le montant total de votre commande est de:<div id="total-price"></div></div>
     </section>
     <footer>
         <a href="mentionslegales.html">Mentions légales</a>

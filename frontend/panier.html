@@ -4,11 +4,12 @@
 
 <head>
 	<meta charset="utf-8"/>
-	<link rel="stylesheet" href="Style.css" />
+	<link rel="stylesheet" href="style.css" />
 	<title> panier </title>
     <script src="./js/utils.js" defer></script>
     <script src="./js/storage.js" defer></script>
     <script src="./js/panier.js" defer></script>
+    <script src="./js/order.js" defer></script>
    
 </head>
 <body>
@@ -16,17 +17,18 @@
         <a href="index.html"><img src="../images/logo.png"alt="logo"/></a>
     </header>
     <h1>PANIER</h1>
-    <section class="catalog">
+    <section class="panier-presentation">
         <div id="panier"></div>
+        <div id="total-order"></div>
         <button id="vider-panier">vider le panier</button>
         <div id="panier-vide">Le panier est vide</div>
-        <form id="formulaire-commande" method="post" action="./js/commande.js">
+        <form id="formulaire" method="POST" action="order.html">
             <p><input type="text" name="nom" placeholder="Nom & Prenom" required/></p>
             <p><input type="email" name="Email" placeholder="E-mail" required/></p>
             <p><input type="tel" name="telephone" placeholder="telephone" required/></p>
-            <p><input type="text" name="adresse-livraison"  placeholder="Adresse de livraison"required/></p>
-            <p><input type="text" name="adresse-facturation" placeholder="Adresse de facturation si différente" /></p>
-            <input type="submit" value="je valide ma commande" />
+            <p><input type="text" name="adresse-livraison"  placeholder="Adresse de livraison: N° et rue ou lieu dit" required/></p>
+            <p><input type="text" name="adresse-ville" placeholder="CP + Ville de livraison" required/></p>
+            <input type="submit" id="send-cart" value="je valide ma commande" />
         </form>
     </section>
     <footer>
