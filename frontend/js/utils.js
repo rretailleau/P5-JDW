@@ -47,3 +47,10 @@ function ajax(url, verb, payload = {}){
         req.send(payload);
     });
 }
+
+function hide(id) {
+    document.getElementById(id).style.display = 'none';
+}
+function show(id) {
+    document.getElementById(id).style.display = 'block';
+}

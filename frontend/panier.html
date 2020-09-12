@@ -9,8 +9,7 @@
     <script src="./js/utils.js" defer></script>
     <script src="./js/storage.js" defer></script>
     <script src="./js/panier.js" defer></script>
-    <script src="./js/order.js" defer></script>
-   
+       
 </head>
 <body>
     <header>
@@ -23,11 +22,10 @@
         <button id="vider-panier">vider le panier</button>
         <div id="panier-vide">Le panier est vide</div>
         <form id="formulaire" method="POST" action="order.html">
-            <p><input type="text" name="nom" placeholder="Nom & Prenom" required/></p>
-            <p><input type="email" name="Email" placeholder="E-mail" required/></p>
-            <p><input type="tel" name="telephone" placeholder="telephone" required/></p>
-            <p><input type="text" name="adresse-livraison"  placeholder="Adresse de livraison: N° et rue ou lieu dit" required/></p>
-            <p><input type="text" name="adresse-ville" placeholder="CP + Ville de livraison" required/></p>
+            <p><input type="text" name="nom" id="form-nom" placeholder="Nom & Prenom"/></p>
+            <p><input type="email" name="Email" id="form-mail" placeholder="E-mail" /></p>
+            <p><input type="text" name="adresse-livraison" id="form-location" placeholder="Adresse de livraison: N° et rue ou lieu dit"/></p>
+            <p><input type="text" name="adresse-ville" id="form-city" placeholder="CP + Ville de livraison"/></p>
             <input type="submit" id="send-cart" value="je valide ma commande" />
         </form>
     </section>
