@@ -1,3 +1,4 @@
+updateCart();
 
 ajax('http://localhost:3000/api/teddies/', 'GET').then((products)=>{
     displayProducts(products);

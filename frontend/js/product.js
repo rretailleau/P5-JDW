@@ -1,3 +1,6 @@
+updateCart();
+
+
 if (!getProductId()){
     alert('référence produit inconnu');
 }
@@ -37,13 +40,10 @@ function listenForCartAddition() {
         products.push(getProductId());
         set('products' , products);
         updateCart();
+        
+        
     })
 }
 
 
- 
-function updateCart(){
-  var itemsQt = document.getElementById('total-product').text();
-  document.getElementById('total-product').html( parseInt(itemsQt) + 1 );                        
-}
- 
+

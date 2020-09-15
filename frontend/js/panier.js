@@ -6,11 +6,14 @@ if (!has('products')) {
     hide('panier-vide');
     show('vider-panier');
     show('formulaire');
+    
 }
+
+updateCart();
 
 ajax('http://localhost:3000/api/teddies/', 'GET').then((products)=>{
     let productsInCart = getProductFromCart(products);
-    cartEmptying('vider-panier');
+    listenForCartEmptying('vider-panier');
     displayProducts(productsInCart);
     total(productsInCart)
     listenForCartSubmission()
@@ -28,7 +31,7 @@ function getProductFromCart(products){
     }
     return list;
 }
-function cartEmptying(id) {
+function listenForCartEmptying(id) {
     document.getElementById(id).addEventListener('click',() => {
         clear();
         location.reload();
@@ -46,75 +49,111 @@ function displayProducts(products) {
 function total(products) {
     let total = products.reduce((total,product) => total + product.price/100, 0);
 
-    document.getElementById('total-order').innerHTML = "Le montant total de votre commande est de   " + total + " €" ;
+    document.getElementById('total-order').innerHTML = `Le montant total de votre commande est de ${total} €` ;
 }
 
 
 function listenForCartSubmission() {
-    document.getElementById('send-cart').addEventListener('submit',function(e) {
+    document.getElementById('send-cart').addEventListener('click',function(e) {
         e.preventDefault();
-        isFormValid();    
-        
-        let products = get('products');
-        let total = total(productsInCart)
-        let contact = {
-            nom: nom,
-            mail: mail,
-            location: location,
-            city: city,
+       
+        if (! isFormValid()){
+            alert ('la forme nest pas correcte');
+            return;
         }
+        let products = get('products');
+        console.log(3, products);
+        let contact = {
+            firstName: document.getElementById('form-firstname').value,
+            lastName: document.getElementById('form-name').value,
+            adress: document.getElementById('form-location').value,
+            city: document.getElementById('form-city').value,
+            email: document.getElementById('form-mail').value,
+        }
+        
         let payload = {
             contact: contact,
             products: products,
-            total: total,
         }
-        console.log(payload);
-        ajax('http://localhost:3000/api/teddies/order/', 'POST', payload).then((e)=>{
-            
-            document.getElementById('order').innerHTML = payload ;
-            document.getElementById('order-number').innerHTML = getOrderNumber();
+        console.log(1, payload);
 
+        ajax('http://localhost:3000/api/teddies/order/', 'POST', payload).then((e)=>{
+            console.log(e);
+            window.location = `order.html?id=${e.orderId}`;
+            
         })
 
     })
 }
 
-function isNomValid(){
-    let nom = document.getElementById('form-nom').value;
-    if (nom.length > 3) {
+function isFirstNameValid(){
+    let firstname = document.getElementById('form-firstname').value;
+    if (firstname.length > 3) {
         return true;
-    }}
+    } else {
+        return false;
+    }
+}
+
+function isNameValid(){
+    let name = document.getElementById('form-name').value;
+    if (name.length > 3) {
+        return true;
+    } else { 
+        return false;
+    }
+    
+}
 
 function isMailValid(){
     let mail = document.getElementById('form-mail').value;
     if (mail.length > 3) {
         return true;
-    }}
+    } else {
+        return false;
+    }
+}
 
 function isLocationValid(){
     let location = document.getElementById('form-location').value;
     if (location.length > 3) {
         return true;
-    }}
+    } else {
+        return false;
+    }
+}
 
 function isCityValid(){
     let city = document.getElementById('form-city').value;
     if (city.length > 3) {
         return true;
-    }}
+    } else {
+        return false;
+    }
+}
 
 function isFormValid() {    
     return (
-        isNomValid() &&
+        isFirstNameValid() &&
+        isNameValid() &&
         isMailValid() &&
         isLocationValid() &&
         isCityValid() && 
-        Storage.has('products')
+        has('products')
     );
 }
 
-function getOrderNumber(id) {
-    let numcommande = 1032;
-    return (numcommande);
-    console.log(numcommande);
-} 
+
+//function removeFromCartSelection() {
+    
+   // document.getElementById('remove-from-cart-button').addEventListener('click', function() {
+     //   let products = [];
+
+    //  if (has('products')) {
+    //        products = clear('products');}
+    //  products.push(getProductId());
+    //  set('products' , products);
+    //  updateCart();
+            
+ //   })
+//}

@@ -4,7 +4,8 @@
 
 <head>
 	<meta charset="utf-8"/>
-	<link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://kit.fontawesome.com/113870b6aa.js" crossorigin="anonymous"></script>
 	<title> panier </title>
     <script src="./js/utils.js" defer></script>
     <script src="./js/storage.js" defer></script>
@@ -14,6 +15,10 @@
 <body>
     <header>
         <a href="index.html"><img src="../images/logo.png"alt="logo"/></a>
+        <div>
+            <a href="panier.html" id="cart-icon" style="align-content: right;"><i class="fas fa-cart-arrow-down"></i></a>
+            <div id="total-product"></div>
+        </div>
     </header>
     <h1>PANIER</h1>
     <section class="panier-presentation">
@@ -21,12 +26,13 @@
         <div id="total-order"></div>
         <button id="vider-panier">vider le panier</button>
         <div id="panier-vide">Le panier est vide</div>
-        <form id="formulaire" method="POST" action="order.html">
-            <p><input type="text" name="nom" id="form-nom" placeholder="Nom & Prenom"/></p>
+        <form id="formulaire" method="POST" ><!--action="order.html"-->
+            <p><input type="text" name="prenom" id="form-firstname" placeholder="Prenom"/></p>
+            <p><input type="text" name="nom" id="form-name" placeholder="Nom"/></p>
             <p><input type="email" name="Email" id="form-mail" placeholder="E-mail" /></p>
             <p><input type="text" name="adresse-livraison" id="form-location" placeholder="Adresse de livraison: N° et rue ou lieu dit"/></p>
             <p><input type="text" name="adresse-ville" id="form-city" placeholder="CP + Ville de livraison"/></p>
-            <input type="submit" id="send-cart" value="je valide ma commande" />
+            <button id="send-cart">je valide ma commande</button>
         </form>
     </section>
     <footer>

@@ -1,3 +1,5 @@
+
+
 function renderHTMLProduct(product, type) {
     if (type === 'list') {
         return`
@@ -23,11 +25,13 @@ function renderHTMLProduct(product, type) {
             ${product.name}
             ${product.price/100}€
             <img src= ${product.imageUrl} width="200px"/>
+            <button data-id="${product._id}" id="remove-from-cart-button">supprimer ce produit</button>
         </div>`
     }
 }
 
 function ajax(url, verb, payload = {}){
+    console.log(2,payload);
     return new Promise ((resolve, reject)=> {
         let req = new XMLHttpRequest();
         req.open(verb, url);
@@ -44,7 +48,7 @@ function ajax(url, verb, payload = {}){
 
         req.setRequestHeader("content-type", "application/json;charset=UTF-8");
 
-        req.send(payload);
+        req.send(JSON.stringify(payload));
     });
 }
 
@@ -54,3 +58,12 @@ function hide(id) {
 function show(id) {
     document.getElementById(id).style.display = 'block';
 }
+
+ function updateCart(){
+    let total = 0;
+    if (has('products')){
+        total = get('products').length;
+    }  
+    document.getElementById('total-product').innerHTML = total;
+}
+ 
