@@ -25,13 +25,13 @@ function renderHTMLProduct(product, type) {
             ${product.name}
             ${product.price/100}€
             <img src= ${product.imageUrl} width="200px"/>
-            <button data-id="${product._id}" id="remove-from-cart-button">supprimer ce produit</button>
+            </br>
+            <button onclick="removeFromCartSelection('${product._id}')" data-id="${product._id}" id="remove-from-cart-button">supprimer ce produit</button>
         </div>`
     }
 }
 
 function ajax(url, verb, payload = {}){
-    console.log(2,payload);
     return new Promise ((resolve, reject)=> {
         let req = new XMLHttpRequest();
         req.open(verb, url);
@@ -67,3 +67,8 @@ function show(id) {
     document.getElementById('total-product').innerHTML = total;
 }
  
+function total(products) {
+    let total = products.reduce((total,product) => total + product.price/100, 0);
+
+    document.getElementById('total-order').innerHTML = `Le montant total de votre commande est de ${total} €` ;
+}

@@ -51,9 +51,9 @@ footer{
     font-size: 1em;
     color: blueviolet;
 } 
-#vider-panier, #send-cart {
+#vider-panier, #send-cart, #remove-from-cart-button {
     position: relative;
-    left: 900px;
+    left: 500px;
     font-size: 1em;
 
     

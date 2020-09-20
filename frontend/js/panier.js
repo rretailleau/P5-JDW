@@ -5,8 +5,7 @@ if (!has('products')) {
 } else {
     hide('panier-vide');
     show('vider-panier');
-    show('formulaire');
-    
+    show('formulaire'); 
 }
 
 updateCart();
@@ -22,6 +21,7 @@ ajax('http://localhost:3000/api/teddies/', 'GET').then((products)=>{
 function findProduct(id, products) {
     return products.find((product) => product._id == id);
 } 
+
 function getProductFromCart(products){
     let list =[];
     let productIdsInCart = get('products');
@@ -31,9 +31,10 @@ function getProductFromCart(products){
     }
     return list;
 }
+
 function listenForCartEmptying(id) {
     document.getElementById(id).addEventListener('click',() => {
-        clear();
+        clear(id);
         location.reload();
     })
 }
@@ -46,11 +47,6 @@ function displayProducts(products) {
    document.getElementById('panier').innerHTML = html;
       
 }
-function total(products) {
-    let total = products.reduce((total,product) => total + product.price/100, 0);
-
-    document.getElementById('total-order').innerHTML = `Le montant total de votre commande est de ${total} €` ;
-}
 
 
 function listenForCartSubmission() {
@@ -62,7 +58,7 @@ function listenForCartSubmission() {
             return;
         }
         let products = get('products');
-        console.log(3, products);
+
         let contact = {
             firstName: document.getElementById('form-firstname').value,
             lastName: document.getElementById('form-name').value,
@@ -78,9 +74,7 @@ function listenForCartSubmission() {
         console.log(1, payload);
 
         ajax('http://localhost:3000/api/teddies/order/', 'POST', payload).then((e)=>{
-            console.log(e);
-            window.location = `order.html?id=${e.orderId}`;
-            
+            window.location = `order.html?id=${e.orderId}`;         
         })
 
     })
@@ -144,16 +138,10 @@ function isFormValid() {
 }
 
 
-//function removeFromCartSelection() {
+function removeFromCartSelection(name) {
+    alert(name)
+    localStorage.removeItem(name , JSON.stringify(value));
     
-   // document.getElementById('remove-from-cart-button').addEventListener('click', function() {
-     //   let products = [];
-
-    //  if (has('products')) {
-    //        products = clear('products');}
-    //  products.push(getProductId());
-    //  set('products' , products);
-    //  updateCart();
-            
- //   })
-//}
+    location.reload(); 
+       
+}
