@@ -1,30 +1,40 @@
-if (!has('products')) {
+if (!Storage.has('products')) {
     show('panier-vide');
     hide('vider-panier');
     hide('formulaire');
 } else {
     hide('panier-vide');
     show('vider-panier');
-    show('formulaire'); 
+    show('formulaire');
+    ajax('http://localhost:3000/api/teddies/', 'GET').then((products)=>{
+        let productsInCart = getProductFromCart(products);
+        listenForCartEmptying('vider-panier');
+        displayProducts(productsInCart);
+        total(productsInCart);
+        listenForCartSubmission();
+    }) 
 }
 
 updateCart();
 
-ajax('http://localhost:3000/api/teddies/', 'GET').then((products)=>{
-    let productsInCart = getProductFromCart(products);
-    listenForCartEmptying('vider-panier');
-    displayProducts(productsInCart);
-    total(productsInCart)
-    listenForCartSubmission()
-})
+function displayProducts(products) {
+    let html ='';
+    products.forEach((product) => {
+        html += renderHTMLProduct(product,'cart');
+    }) 
+    document.getElementById('panier').innerHTML = html;
 
+    products.forEach((product) => {
+        listenForProductRemoval(product._id);
+    }) 
+}
 function findProduct(id, products) {
     return products.find((product) => product._id == id);
 } 
 
 function getProductFromCart(products){
     let list =[];
-    let productIdsInCart = get('products');
+    let productIdsInCart = Storage.get('products');
     for (let idInCart of productIdsInCart) {
         let product = findProduct(idInCart, products);
         list.push(product)      
@@ -34,35 +44,25 @@ function getProductFromCart(products){
 
 function listenForCartEmptying(id) {
     document.getElementById(id).addEventListener('click',() => {
-        clear(id);
+        Storage.clear();
         location.reload();
     })
 }
-
-function displayProducts(products) {
-    let html ='';
-    products.forEach((product) => {
-        html += renderHTMLProduct(product,'cart');
-    }) 
-   document.getElementById('panier').innerHTML = html;
-      
-}
-
 
 function listenForCartSubmission() {
     document.getElementById('send-cart').addEventListener('click',function(e) {
         e.preventDefault();
        
-        if (! isFormValid()){
+        if (!isFormValid()){
             alert ('la forme nest pas correcte');
             return;
         }
-        let products = get('products');
+        let products = Storage.get('products');
 
         let contact = {
             firstName: document.getElementById('form-firstname').value,
             lastName: document.getElementById('form-name').value,
-            adress: document.getElementById('form-location').value,
+            address: document.getElementById('form-location').value,
             city: document.getElementById('form-city').value,
             email: document.getElementById('form-mail').value,
         }
@@ -73,11 +73,24 @@ function listenForCartSubmission() {
         }
         console.log(1, payload);
 
-        ajax('http://localhost:3000/api/teddies/order/', 'POST', payload).then((e)=>{
-            window.location = `order.html?id=${e.orderId}`;         
+        ajax('http://localhost:3000/api/teddies/order/', 'POST', payload).then((response)=>{
+            window.location = `order.html?id=${response.orderId}`;         
         })
 
     })
+}
+
+function listenForProductRemoval(id) {
+    document.getElementById('remove-' + id).addEventListener('click',() => {
+        console.log(id);
+        let products = Storage.get('products');
+        if (products.includes(id)) {
+            let index = products.findIndex((productId) => productId == id);
+            products.splice((index),1);
+            Storage.set('products', products);
+            location.reload(); 
+        }
+    }) 
 }
 
 function isFirstNameValid(){
@@ -133,15 +146,8 @@ function isFormValid() {
         isMailValid() &&
         isLocationValid() &&
         isCityValid() && 
-        has('products')
+        Storage.has('products')
     );
 }
 
 
-function removeFromCartSelection(name) {
-    alert(name)
-    localStorage.removeItem(name , JSON.stringify(value));
-    
-    location.reload(); 
-       
-}

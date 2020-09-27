@@ -5,6 +5,7 @@
 <head>
 	<meta charset="utf-8"/>
     <link rel="stylesheet" href="style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://kit.fontawesome.com/113870b6aa.js" crossorigin="anonymous"></script>
 	<title> panier </title>
     <script src="./js/utils.js" defer></script>
@@ -15,9 +16,9 @@
 <body>
     <header>
         <a href="index.html"><img src="../images/logo.png"alt="logo"/></a>
-        <div>
-            <a href="panier.html" id="cart-icon" style="align-content: right;"><i class="fas fa-cart-arrow-down"></i></a>
+        <div id="cart-count">
             <div id="total-product"></div>
+            <a href="panier.html" id="cart" style="align-content: right;"><i class="fas fa-cart-arrow-down"></i></a>
         </div>
     </header>
     <h1>PANIER</h1>
@@ -26,7 +27,8 @@
         <div id="total-order"></div>
         <button id="vider-panier">vider tout le panier</button>
         <div id="panier-vide">Le panier est vide</div>
-        <form id="formulaire" method="POST" ><!--action="order.html"-->
+        <article>Remplissez ce formumaire afin de valider votre commande</article>
+        <form id="formulaire" method="POST" >
             <p><input type="text" name="prenom" id="form-firstname" placeholder="Prenom"/></p>
             <p><input type="text" name="nom" id="form-name" placeholder="Nom"/></p>
             <p><input type="email" name="Email" id="form-mail" placeholder="E-mail" /></p>

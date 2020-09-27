@@ -1,20 +1,22 @@
-function has(name) {
-    if (localStorage.getItem(name)) {
-        return true;
+const Storage = {
+    engine: localStorage,
+
+    has(name) {
+        if (this.engine.getItem(name)) {
+            return true;
     }
-    return false;
+        return false;
+    },
+    
+    get(name) {
+        return JSON.parse(this.engine.getItem(name));
+    },
+
+    set(name, value) {
+        this.engine.setItem(name , JSON.stringify(value));
+    },
+
+    clear() {
+        this.engine.clear();
+    }
 }
-
-function get(name) {
-    return JSON.parse(localStorage.getItem(name));
-}
-
-function set(name, value) {
-    localStorage.setItem(name , JSON.stringify(value));
-}
-
-function clear(id) {
-    localStorage.clear(id);
-
-}
-
