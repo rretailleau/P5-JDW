@@ -6,6 +6,7 @@ header {
     color:red;
     font-family: Verdana, Arial, Helvetica, sans-serif;
     font-size: 2em;
+    margin-bottom: 20px;
 }
 
 #cart-count {
@@ -19,7 +20,6 @@ header {
     border-radius: 30px;
 }
 
-
 body {
     width: 80%;
     min-width: 350px;
@@ -32,20 +32,24 @@ h1, article {
     color:  rgb(218, 30, 139);
 }
 
-/*catalogue*/
-  
+/*catalogue*/  
 #result {
     display: flex;
     flex-wrap: wrap;
     margin: auto;
     font-size: 2em;
 }
+#img-catalog, #img-product{
+    width:400px;
+}
+
 .product-list {
-    min-width: 600px;
-    max-width: 600px;
+    min-width: 533px;
+    max-width: 533px;
     margin-bottom: 100px;
     text-align: center;
 }
+
 #see-product {
     font-size: 1em;
     color: blueviolet;
@@ -54,48 +58,68 @@ h1, article {
 /*product*/
 #product {
     margin-bottom: 100px;
-    font-size: 2em;
-    width:900px;
-    margin:auto;
-    margin-bottom: 100px;
-    text-align: center;
+    font-size: 1.5em;
+    margin:auto;  
+    text-align: center; 
 }
+.product-single {
+    display: flex;
+}
+#product-info {
+    margin: 50px;
+    text-align: left;
+}
+
 #add-to-cart-button { 
     font-size: 1em;
+    margin: 20px;
     color: blueviolet;
-} 
+}
 
 /*panier*/
 .panier-presentation {
-    margin-left: 100px;
+    width: 90%;
 }
 .product-cart {
-    min-width: 350px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between ;
+    align-items: center;
+
+}
+
+#img-cart {
+    width: 200px;
+}
+
+#border {
+    border-bottom: solid blueviolet 2px;
     margin: 20px;
 }
-#vider-panier, .remove-from-cart-button {
+
+#vider-panier {
+    margin: 20px;
+}
+
+.remove-from-cart-button {
     font-size: 1em;   
 }
-#panier {
-    display: flex;
-    flex-wrap: wrap;
-    text-align: center;
-}
+
 #total-order {
     text-align: center;
-    font-size: 2em;
-    padding-right: 20px;
+    font-size: 1.5em;
+    margin: 20px;
 }
-form {
+#formulaire {
     text-align: center;   
 }
 
 #send-cart{
-    font-size: 2em;
+    font-size: 1.5em;
     color: blueviolet;
 }
 
-
+/*toutes les pages*/
 footer{
     color:  rgb(218, 30, 139);
     background-color: #f3e9f1; 
@@ -113,10 +137,13 @@ footer{
       margin: auto;
       flex-wrap: wrap;
     }
-    #result {
-              
+    #result {     
         margin-bottom: 50px;
         text-align: center;
+    }
+    #img-catalog, #img-product, #img-cart {
+        max-width: 100%;
+        height: auto;
     }
     #product {
         padding: 10px 10px 10px 10px;
@@ -125,6 +152,9 @@ footer{
         margin:auto;
         margin-bottom: 50px;
         text-align: center;
+    }
+    .product-single,.product-cart {
+        flex-wrap: wrap;
     }
     .product-list {
         min-width: 300px;

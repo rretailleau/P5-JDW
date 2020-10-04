@@ -1,10 +1,11 @@
+//objet proriete methode
 const Storage = {
     engine: localStorage,
 
     has(name) {
         if (this.engine.getItem(name)) {
             return true;
-    }
+        }
         return false;
     },
     
