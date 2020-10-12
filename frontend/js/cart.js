@@ -11,13 +11,22 @@ if (!Storage.has('products')) {
     ajax('http://localhost:3000/api/teddies/', 'GET').then((products)=>{
         let productsInCart = getProductFromCart(products);
         displayProducts(productsInCart);
-        total(productsInCart);
+        let total = countTotal(productsInCart);
+        displayTotal(total);
         listenForCartSubmission();
         listenForCartEmptying('vider-panier');
     }) 
 }
 
 qtyInCart();
+
+function countTotal(products) {
+    return products.reduce((total,product) => total + product.price/100, 0);  
+}
+
+function displayTotal(total) {
+    document.getElementById('total-order').innerHTML = `Le montant total de votre commande est de ${total} €` ;
+}
 
 // affiche le panier et permet de retirer un produit l.86
 function displayProducts(products) {
@@ -31,6 +40,7 @@ function displayProducts(products) {
         listenForProductRemoval(product._id);
     }) 
 }
+
 // pour chaque id dans le storage, recupere ts les champs objet dans un [] list
 function getProductFromCart(products){
     let list =[];
@@ -41,6 +51,7 @@ function getProductFromCart(products){
     }
     return list;
 }
+
 function findProduct(id, products) {
     return products.find((product) => product._id == id);
 }
@@ -51,11 +62,12 @@ function listenForCartEmptying(id) {
         location.reload();
     })
 }
-// si le test est validé ecoute pour envoyer le panier et les info clients au serveur
+
+//  ecoute pour envoyer le panier et les infos clients au serveur
 function listenForCartSubmission() {
     document.getElementById('send-cart').addEventListener('click',function(e) {
         e.preventDefault();
-       // test
+       // si le test est validé
         if (!isFormValid()){
             alert ('la forme nest pas correcte');
             return;
@@ -75,12 +87,16 @@ function listenForCartSubmission() {
             products: products,
         }
 
+        let productsInCart = getProductFromCart(products);
+        let total = countTotal(productsInCart);
+
         ajax('http://localhost:3000/api/teddies/order/', 'POST', payload).then((response)=>{
-            window.location = `order.html?id=${response.orderId}`;         
+            window.location = `order.html?id=${response.orderId}&total=${total}`;         
         })
 
     })
 }
+
 //recupere tout le storage > si mon id est prsent recherche son index pour le retirer
 function listenForProductRemoval(id) {
     document.getElementById('remove-' + id).addEventListener('click',() => {
@@ -93,7 +109,8 @@ function listenForProductRemoval(id) {
         }
     }) 
 }
-// validation du formuaire par champs puis totale
+
+// validation du formuaire par champs puis complet
 function isFirstNameValid(){
     let firstname = document.getElementById('form-firstname').value;
     if (firstname.length > 3) {

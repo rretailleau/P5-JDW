@@ -1,6 +1,6 @@
 qtyInCart();
 
-// test 
+// securite 
 if (!getProductId()){
     alert('référence produit inconnu');
 }

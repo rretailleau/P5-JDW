@@ -74,11 +74,6 @@ function renderHTMLProduct(product, type) {
     }
 }
  
-function total(products) {
-    let total = products.reduce((total,product) => total + product.price/100, 0);
-    document.getElementById('total-order').innerHTML = `Le montant total de votre commande est de ${total} €` ;
-}
-
 // si produit dans storage has=l.5 laffiche le nb d'elet du [] storage get=l.12
 function qtyInCart(){
     let total = 0;
