@@ -7,28 +7,25 @@ if (!Storage.has('products')) {
     hide('panier-vide');
     show('vider-panier');
     show('formulaire');
-    //requet sur serveur affiche les pdt le total attend de valider ou de vider
-    ajax('http://localhost:3000/api/teddies/', 'GET').then((products)=>{
+    //requete sur serveur affiche les pdts du storage, le total attend de valider ou de vider
+    ajax('http://localhost:3000/api/teddies/', 'GET').then((products)=> {
         let productsInCart = getProductFromCart(products);
         displayProducts(productsInCart);
         let total = countTotal(productsInCart);
         displayTotal(total);
-        listenForCartSubmission();
+        listenForCartSubmission(total);
         listenForCartEmptying('vider-panier');
     }) 
 }
 
 qtyInCart();
 
+// exécute la somme des prix des produits du storage
 function countTotal(products) {
-    return products.reduce((total,product) => total + product.price/100, 0);  
+    return products.reduce((total,product) => total + product.price, 0);  
 }
 
-function displayTotal(total) {
-    document.getElementById('total-order').innerHTML = `Le montant total de votre commande est de ${total} €` ;
-}
-
-// affiche le panier et permet de retirer un produit l.86
+// boucle les produits du storage et affiche les produits présent + attend le retrait d'un produit
 function displayProducts(products) {
     let html ='';
     products.forEach((product) => {
@@ -41,7 +38,7 @@ function displayProducts(products) {
     }) 
 }
 
-// pour chaque id dans le storage, recupere ts les champs objet dans un [] list
+// pour chaque id dans le storage, récupèere ts les champs objet dans un [] list
 function getProductFromCart(products){
     let list =[];
     let productIdsInCart = Storage.get('products');
@@ -52,10 +49,12 @@ function getProductFromCart(products){
     return list;
 }
 
+// cherche un produit dans le [] d'id
 function findProduct(id, products) {
     return products.find((product) => product._id == id);
 }
 
+// ecoute la suppression du panier
 function listenForCartEmptying(id) {
     document.getElementById(id).addEventListener('click',() => {
         Storage.clear();
@@ -63,32 +62,27 @@ function listenForCartEmptying(id) {
     })
 }
 
-//  ecoute pour envoyer le panier et les infos clients au serveur
-function listenForCartSubmission() {
+//  écoute pour envoyer le panier et les infos clients au serveur // si le test est validé
+function listenForCartSubmission(total) {
     document.getElementById('send-cart').addEventListener('click',function(e) {
         e.preventDefault();
-       // si le test est validé
+       
         if (!isFormValid()){
             alert ('la forme nest pas correcte');
             return;
         }
-        let products = Storage.get('products');
+               
+        let payload = { 
+            contact: {
+                firstName: document.getElementById('form-firstname').value,
+                lastName: document.getElementById('form-name').value,
+                address: document.getElementById('form-location').value,
+                city: document.getElementById('form-city').value,
+                email: document.getElementById('form-mail').value,
+            },
+            products: Storage.get('products')
 
-        let contact = {
-            firstName: document.getElementById('form-firstname').value,
-            lastName: document.getElementById('form-name').value,
-            address: document.getElementById('form-location').value,
-            city: document.getElementById('form-city').value,
-            email: document.getElementById('form-mail').value,
         }
-        
-        let payload = {
-            contact: contact,
-            products: products,
-        }
-
-        let productsInCart = getProductFromCart(products);
-        let total = countTotal(productsInCart);
 
         ajax('http://localhost:3000/api/teddies/order/', 'POST', payload).then((response)=>{
             window.location = `order.html?id=${response.orderId}&total=${total}`;         
@@ -97,7 +91,7 @@ function listenForCartSubmission() {
     })
 }
 
-//recupere tout le storage > si mon id est prsent recherche son index pour le retirer
+//récupère tout le storage > si mon id est prsent recherche son index pour le retirer
 function listenForProductRemoval(id) {
     document.getElementById('remove-' + id).addEventListener('click',() => {
         let products = Storage.get('products');
